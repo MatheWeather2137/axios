@@ -24,17 +24,17 @@ axios.get("https://restcountries.com/v3.1/all").then(res => {
         const stolica = res.data[i].capital;
 
         // Sprawdź, czy kraj już istnieje w bazie danych
-        const checkIfExistsQuery = `SELECT * FROM info WHERE name = '${nazwa}'`;
+        const sql = `SELECT * FROM info WHERE name = '${nazwa}'`;
 
-        con.query(checkIfExistsQuery, function (err, results, fields) {
+        con.query(sql, (err, results, fields)=> {
             if (err) {
                 console.log(err);
             } else {
                 if (results.length === 0) {
                     // Kraj nie istnieje w bazie danych, dodaj go
-                    const insertQuery = `INSERT INTO info (name, population, continent, capital) VALUES ('${nazwa}', '${populacja}', '${kontynent}', '${stolica}')`;
+                    const sql2 = `INSERT INTO info (name, population, continent, capital) VALUES ('${nazwa}', '${populacja}', '${kontynent}', '${stolica}')`;
 
-                    con.query(insertQuery, function (err, result, fields) {
+                    con.query(sql2,(err, result, fields)=> {
                         if (err) {
                             console.log(err);
                         } else {
