@@ -16,29 +16,36 @@ con.connect(function(err){
     if(err) console.log(err)
     else console.log("connected")
 })
-axios.get(`https://restcountries.com/v3.1/all`).then(resp => {
-    for(i = 0; i<=resp.data.length - 1; i++){
-    // console.log(resp.data[i].name.common,",",
-    // resp.data[i].population,",",
-    // resp.data[i].continents,",",
-    // resp.data[i].capital)
-    const name = resp.data[i].name.common
-    const population = resp.data[i].population
-    const continent = resp.data[i].continents[0]
-    const capital = resp.data[i].capital
-    
+axios.get("https://restcountries.com/v3.1/all").then(res => {
+    for (let i = 0; i < res.data.length; i++) {
+        const nazwa = res.data[i].name.common;
+        const populacja = res.data[i].population;
+        const kontynent = res.data[i].continents;
+        const stolica = res.data[i].capital;
 
-    const sql = `INSERT INTO info(name, population, continent, capital) VALUES ('${name}','${population}','${continent}','${capital}')`
-    con.query(sql,(err,result,fields)=>{
-        if(err) console.log(err)
-        else console.log("dodano")
-    })
+        // Sprawdź, czy kraj już istnieje w bazie danych
+        const checkIfExistsQuery = `SELECT * FROM info WHERE name = '${nazwa}'`;
 
-    const sql2 = `SELECT * FROM info WHERE nazwa = '${name}'`
-    if(!result.length){
-    con.query(sql2,(err,result,fields)=>{
-        if(err) console.log(err)
-        else console.log("checked")
-    })
-}}})
+        con.query(checkIfExistsQuery, function (err, results, fields) {
+            if (err) {
+                console.log(err);
+            } else {
+                if (results.length === 0) {
+                    // Kraj nie istnieje w bazie danych, dodaj go
+                    const insertQuery = `INSERT INTO info (name, population, continent, capital) VALUES ('${nazwa}', '${populacja}', '${kontynent}', '${stolica}')`;
+
+                    con.query(insertQuery, function (err, result, fields) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log(`Dodano nowy kraj: ${nazwa}`);
+                        }
+                    });
+                } else {
+                    console.log(`Kraj ${nazwa} już istnieje w bazie danych`);
+                }
+            }
+        });
+    }
+});
 app.listen(port)
