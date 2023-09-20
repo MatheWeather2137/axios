@@ -1,0 +1,17 @@
+body{
+    margin: 0;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 25vh 75vh;
+    grid-template-areas: 
+    "menu"
+    "content";
+}
+#menu{
+    grid-area: menu;
+    background-color: gray;
+}
+#content{
+    grid-area: content;
+    background-color: aliceblue;
+}
