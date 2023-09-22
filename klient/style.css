@@ -1,15 +1,19 @@
 body{
     margin: 0;
     display: grid;
-    grid-template-columns: 100%;
+    grid-template-columns: 50% 50%;
     grid-template-rows: 25vh 75vh;
     grid-template-areas: 
-    "menu"
-    "content";
+    "menu checkboxes"
+    "content content";
 }
 #menu{
     grid-area: menu;
     background-color: gray;
+}
+#checkboxes{
+    grid-area: checkboxes;
+    background-color: rgb(214, 153, 153);
 }
 #content{
     grid-area: content;
