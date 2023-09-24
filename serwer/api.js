@@ -37,12 +37,4 @@ app.get("/populacja/:populacja",(req,res)=>{
         else res.send(result)
     })
 })
-app.get("/kon",(req,res)=>{
-    const sql3 = `SELECT DISTINCT continent FROM info`
-
-    con.query(sql3,(err,result,fields)=>{
-        if(err) console.log(err)
-        else res.send(result)
-    })
-})
 app.listen(port)

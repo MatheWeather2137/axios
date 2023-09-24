@@ -1,30 +1,33 @@
-const menu = document.getElementById("menu")
-const content = document.getElementById("content")
-const aha = document.getElementById("checkboxes")
+let continentsData = []
 
-async function getData(){
-    const data = await fetch("http://localhost:3001/kon")
-    const json = await data.json()
-    console.log(json)
+async function fetchContinents() {
+  try {
+    const response = await fetch("http://localhost:3000/kontynenty");
+    const json = await response.json();
+    continentsData = json;
 
-    for(let i=0; i>=json.length-1; i++){
-        const div = document.createElement("div")
-        div.setAttribute("id","divv")
-        menu.appendChild(div)
-        
-        const checkbox = document.createElement("input")
-        checkbox.setAttribute("type","checkbox")
-        checkbox.classList.add("input_checkbox")
-        checkbox.setAttribute("name","continent")
-        checkbox.setAttribute("value",`${json[i].continent}`)
-        checkbox.setAttribute("id",`continent${i}`)
-        
-        const label = document.createElement("label")
-        label.setAttribute("for",`continent${i}`)
-        label.innerHTML = document.getElementById(`continent${i}`).value
+    const checkboxContainer = document.getElementById("checkbox");
 
-        div.appendChild(checkbox)
-        div.appendChild(label)        
-    }
+    json.forEach((continent, index) => {
+      const checkBox = document.createElement("input");
+      checkBox.type = "checkbox";
+      checkBox.id = checkbox-${index};
+      checkBox.value = continent.nazwa;
+
+      const label = document.createElement("label");
+
+      // Dodaj tekst z nazwą kontynentu do etykiety
+      label.textContent = continent.nazwa;
+
+      // Dodaj checkbox i etykietę do kontenera
+      checkboxContainer.appendChild(checkBox);
+      checkboxContainer.appendChild(label);
+    });
+  } catch (error) {
+    console.error(
+      "Wystąpił błąd podczas pobierania danych o kontynentach:",
+      error
+    );
+  }
 }
-getData()
+fetchContinents()
